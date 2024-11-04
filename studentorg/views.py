@@ -11,12 +11,6 @@ from django.db.models.query import QuerySet
 from django.db.models import Q 
 
 @method_decorator(login_required, name='dispatch')
-class OrganizationList(ListView):
-     model = Organization
-     context_object_name = 'organization'
-     template_name = 'organization/org_list.html'
-     paginate_by = 5
-
 class HomePageView(ListView):
      model = Organization
      context_object_name = 'home'
@@ -29,6 +23,12 @@ class HomePageView(ListView):
                query = self.request.GET.get('q')
                qs = qs.filter(Q(name__icontains=query) | Q(description__icontains=query))
           return qs
+     
+class OrganizationList(ListView):
+     model = Organization
+     context_object_name = 'organization'
+     template_name = 'organization/org_list.html'
+     paginate_by = 5
 
 class OrganizationCreateView(CreateView):
      model = Organization
