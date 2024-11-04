@@ -276,8 +276,8 @@
 
 <script>
 	const nav = document.querySelector(".navigation")
-	const currentUrl = window.location.href.split("/")
-	const currentPage = currentUrl[3]
+	const currentUrl = window.location.href
+	const currentPage = currentUrl.split("/")[3]
 
 	const navItems = nav.querySelectorAll(".nav-item")
 
