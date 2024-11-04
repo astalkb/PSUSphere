@@ -174,7 +174,7 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="{% url 'organization-list' %}"></a>
+							<a href="{% url 'organization-list' %}">
 								<i class="la la-table"></i>
 								<p>Organization</p>
 							</a>
@@ -200,18 +200,15 @@
 						<li class="nav-item active">
 							<a href="typography.html">
 								<i class="la la-font"></i>
-								<p>Typography</p>
-								<span class="badge badge-danger">25</span>
+								<p>Program</p>
 							</a>
 						</li>
-
 					</ul>
 				</div>
 			</div>
 			<div class="main-panel">
 						{% block content %}
 						{% endblock %}
-				</div>
 				<footer class="footer">
 					<div class="container-fluid">
 						<nav class="pull-left">

@@ -37,6 +37,7 @@
                  <tr>
                    <th scope="col">Name</th>
                    <th scope="col">College</th>
+                   <th scope="col">Description</th>
                    <th scope="col">Action</th>
                  </tr>
                </thead>
@@ -45,7 +46,7 @@
                  <tr>
                    <td>{{ object.name }}</td>
                    <td>{{ object.college }}</td>
-                   <td>
+                   <td>{{ object.description }}</td>
                     <a href="organization_list/{{ object.id }}">Edit</a>
                     <a href="organization_list/{{ object.id }}/delete" class="text-danger">Delete</a>
                    </td>

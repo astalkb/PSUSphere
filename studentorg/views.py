@@ -4,7 +4,6 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from studentorg.models import Organization
 from studentorg.forms import OrganizationForm
 from django.urls import reverse_lazy 
-template_name = "home.html"
 
 class OrganizationList(ListView):
      model = Organization
@@ -13,10 +12,10 @@ class OrganizationList(ListView):
      paginate_by = 5
 
 class HomePageView(ListView):
-    model = Organization
-    context_object_name = 'home'
-    template_name = "home.html"
-    paginate_by = 5 
+     model = Organization
+     context_object_name = 'home'
+     template_name = "home.html"
+     paginate_by = 5 
 
 class OrganizationCreateView(CreateView):
      model = Organization
