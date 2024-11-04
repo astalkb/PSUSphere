@@ -14,7 +14,7 @@
 	<div class="wrapper">
 		<div class="main-header">
 			<div class="logo-header">
-				<a href="index.html" class="logo">
+				<a href="{% url 'home' %}" class="logo">
 					Ready Dashboard
 				</a>
 				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
@@ -166,38 +166,38 @@
 							</div>
 						</div>
 					</div>
-					<ul class="nav">
-						<li class="nav-item">
-							<a href="index.html">
+					<ul class="nav navigation">
+						<li class="nav-item home">
+							<a href="{% url 'home' %}">
 								<i class="la la-dashboard"></i>
 								<p>Dashboard</p>
 							</a>
 						</li>
-						<li class="nav-item">
+						<li class="nav-item organization_list">
 							<a href="{% url 'organization-list' %}">
 								<i class="la la-table"></i>
 								<p>Organization</p>
 							</a>
 						</li>
-						<li class="nav-item">
+						<li class="nav-item orgmember_list">
 							<a href="{% url 'orgmember-list' %}">
 								<i class="la la-keyboard-o"></i>
 								<p>Org. Members</p>
 							</a>
 						</li>
-						<li class="nav-item">
+						<li class="nav-item student_list">
 							<a href="{% url 'student-list' %}">
 								<i class="la la-th"></i>
 								<p>Student</p>
 							</a>
 						</li>
-						<li class="nav-item">
+						<li class="nav-item college_list">
 							<a href="{% url 'college-list' %}">
 								<i class="la la-bell"></i>
 								<p>College</p>
 							</a>
 						</li>
-						<li class="nav-item active">
+						<li class="nav-item program_list">
 							<a href="{% url 'program-list' %}">
 								<i class="la la-font"></i>
 								<p>Program</p>
@@ -273,5 +273,25 @@
 <script src="{% static 'js/plugin/chart-circle/circles.min.js' %}"></script>
 <script src="{% static 'js/plugin/jquery-scrollbar/jquery.scrollbar.min.js' %}"></script>
 <script src="{% static 'js/ready.min.js' %}"></script>
+
+<script>
+	const nav = document.querySelector(".navigation")
+	const currentUrl = window.location.href.split("/")
+	const currentPage = currentUrl[3]
+
+	const navItems = nav.querySelectorAll(".nav-item")
+
+	navItems.forEach(function (navItem) {
+		let navItemName = navItem.className.split(" ")[1]
+
+		if (navItemName === currentPage) {
+			navItem.classList.add("active")
+		}
+
+		if ((currentPage === "") && (navItemName === "home")) {
+			navItem.classList.add("active")
+		} 
+	})
+</script>
 
 </html>
