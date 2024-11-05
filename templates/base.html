@@ -121,7 +121,10 @@
 									<div class="dropdown-divider"></div>
 									<a class="dropdown-item" href="#"><i class="ti-settings"></i> Account Setting</a>
 									<div class="dropdown-divider"></div>
-									<a class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-power-off"></i> Logout</a>
+									<form class="dropdown-item" method="post" action="{% url 'logout' %}">
+										{% csrf_token %}
+										<button class="btn btn-link m-0 p-0 text-danger" type="submit"><i class="fa fa-power-off"></i> Logout</button>
+									</form>
 								</ul>
 								<!-- /.dropdown-user -->
 							</li>
