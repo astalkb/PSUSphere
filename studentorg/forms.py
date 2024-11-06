@@ -1,4 +1,4 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, DateInput
 from django import forms
 from .models import Organization, OrgMember, Student, College, Program
 
@@ -11,6 +11,9 @@ class OrgMemberForm(ModelForm):
     class Meta:
         model = OrgMember
         fields = "__all__"
+        widgets = {
+            'date_joined': DateInput(attrs={'type': 'date'})
+        }
 
 class StudentForm(ModelForm):
     class Meta:
