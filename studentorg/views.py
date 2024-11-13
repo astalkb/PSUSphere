@@ -79,6 +79,64 @@ def LineCountbyMonth(request):
      
      return JsonResponse(result_with_month_names)
 
+def MultilineIncidentTop3Country(request):
+     query = '''
+          SELECT  
+               fl.country, 
+               strftime('%m', fi.date_time) AS month, 
+               COUNT(fi.id) AS incident_count
+          FROM  
+               fire_incident fi 
+          JOIN  
+               fire_locations fl ON fi.location_id = fl.id 
+          WHERE  
+               fl.country IN ( 
+                    SELECT  
+                         fl_top.country 
+                    FROM  
+                         fire_incident fi_top 
+                    JOIN  
+                         fire_locations fl_top ON fi_top.location_id = fl_top.id 
+                    WHERE  
+                         strftime('%Y', fi_top.date_time) = strftime('%Y', 'now') 
+                    GROUP BY  
+                         fl_top.country 
+                    ORDER BY  
+                         COUNT(fi_top.id) DESC 
+                    LIMIT 3 
+               ) 
+               AND strftime('%Y', fi.date_time) = strftime('%Y', 'now') 
+          GROUP BY  
+               fl.country, month 
+          ORDER BY  
+               fl.country, month;
+     '''
+     with connection.cursor() as cursor:
+          cursor.execute(query)
+          rows = cursor.fetchall()
+
+     result = {}
+     months = set(str(i).zfill(2) for i in range(1, 13))
+
+     for row in rows:
+          country = row[0]
+          month = row[1]
+          total_incidents = row[2]
+
+          if country not in result:
+               result[country] = {month: 0 for month in months}
+
+          result[country][month] = total_incidents
+
+     while len(result) < 3:
+          missing_country = f"Country {len(result) + 1}"
+          result[missing_country] = {month: 0 for month in months}
+
+     for country in result:
+          result[country] = dict(sorted(result[country].items()))
+
+     return JsonResponse(result)
+
 class OrganizationList(ListView):
      model = Organization
      context_object_name = 'organization'
