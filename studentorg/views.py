@@ -24,6 +24,14 @@ class HomePageView(ListView):
                qs = qs.filter(Q(name__icontains=query) | Q(description__icontains=query))
           return qs
      
+class ChartView(ListView):
+     template_name = 'chart.html'
+     def get_context_data(self, **kwargs):
+          context = super().get_context_data(**kwargs) 
+          return context
+     def get_queryset(self, *args, **kwargs):
+          pass
+
 class OrganizationList(ListView):
      model = Organization
      context_object_name = 'organization'
