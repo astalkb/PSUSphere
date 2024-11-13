@@ -17,7 +17,7 @@ The `urlpatterns` list routes URLs to views. For more information please see:
 from django.contrib import admin
 from django.urls import path, re_path
 from studentorg.views import (
-     HomePageView, ChartView, PieCountbySeverity, OrganizationList, OrganizationCreateView, OrganizationUpdateView,
+     HomePageView, ChartView, PieCountbySeverity, LineCountbyMonth, OrganizationList, OrganizationCreateView, OrganizationUpdateView,
      OrganizationDeleteView,
      OrgMemberList, OrgMemberCreateView, OrgMemberUpdateView, OrgMemberDeleteView,
      StudentList, StudentCreateView, StudentUpdateView, StudentDeleteView,
