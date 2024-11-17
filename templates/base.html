@@ -210,8 +210,7 @@
 				</div>
 			</div>
 			<div class="main-panel">
-						{% block content %}
-						{% endblock %}
+						{% block content %}{% endblock %}
 				<footer class="footer">
 					<div class="container-fluid">
 						<nav class="pull-left">
@@ -252,6 +251,7 @@
 					</button>
 				</div>
 				<div class="modal-body text-center">									
+
 					<p>Currently the pro version of the <b>Ready Dashboard</b> Bootstrap is in progress development</p>
 					<p>
 					<b>We'll let you know when it's done</b></p>
@@ -267,6 +267,9 @@
 <script src="{% static 'js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js' %}"></script>
 <script src="{% static 'js/core/popper.min.js' %}"></script>
 <script src="{% static 'js/core/bootstrap.min.js' %}"></script>
+<!-- Add Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% block chart %}{% endblock %}
 <script src="{% static 'js/plugin/chartist/chartist.min.js' %}"></script>
 <script src="{% static 'js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js' %}"></script>
 <script src="{% static 'js/plugin/bootstrap-notify/bootstrap-notify.min.js' %}"></script>

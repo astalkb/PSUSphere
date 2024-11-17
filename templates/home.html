@@ -1,18 +1,262 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
 <div class="content">
   <div class="container-fluid">
-    <h4 class="page-title">Home</h4>
+    <h4 class="page-title">PSUSphere Dashboard</h4>
     <div class="row">
-      <div class="col-md-12">
+      <!-- Radar Chart: Organization Participation by College -->
+      <div class="col-md-6">
         <div class="card">
           <div class="card-header">
-            <div class="card-title">Page Title</div>
-            <div class="card-category">Page Subtitle</div>
+            <div class="card-title">Organization Participation by College</div>
+            <div class="card-category">Distribution of organizations across colleges</div>
           </div>
-          <div class="card-body">Hello, World</div>
+          <div class="card-body">
+            <div class="chart-container" style="height: 300px;">
+              <canvas id="radarChartOrgParticipation"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bubble Chart: Student Distribution Across Programs -->
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Student Distribution Across Programs</div>
+            <div class="card-category">Student count and organization membership by program</div>
+          </div>
+          <div class="card-body">
+            <div class="chart-container" style="height: 300px;">
+              <canvas id="bubbleChartStudentPrograms"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Horizontal Bar Chart: Top 5 Organizations by Member Count -->
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Top 5 Organizations by Member Count</div>
+            <div class="card-category">Most popular student organizations</div>
+          </div>
+          <div class="card-body">
+            <div class="chart-container" style="height: 300px;">
+              <canvas id="horizontalBarTopOrgs"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stacked Bar Chart: OrgMember Joining Trends by Semester -->
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Organization Member Joining Trends</div>
+            <div class="card-category">New member trends by semester</div>
+          </div>
+          <div class="card-body">
+            <div class="chart-container" style="height: 300px;">
+              <canvas id="stackedBarOrgMemberTrends"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Doughnut Chart: Program Distribution Across Colleges -->
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Program Distribution Across Colleges</div>
+            <div class="card-category">Number of programs per college</div>
+          </div>
+          <div class="card-body">
+            <div class="chart-container" style="height: 300px;">
+              <canvas id="doughnutProgramDistribution"></canvas>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+{% endblock %}
+
+{% block chart %}
+<script>
+async function loadChartData() {
+  try {
+    // Radar Chart: Organization Participation by College
+    const radarResponse = await fetch("/radarChartOrgParticipation/");
+    const radarData = await radarResponse.json();
+    const radarCtx = document.getElementById("radarChartOrgParticipation").getContext("2d");
+    new Chart(radarCtx, {
+      type: "radar",
+      data: {
+        labels: radarData.labels,
+        datasets: [{
+          label: "Organizations per College",
+          data: radarData.values,
+          backgroundColor: "rgba(29, 122, 243, 0.2)",
+          borderColor: "#1d7af3",
+          pointBackgroundColor: "#1d7af3",
+          pointBorderColor: "#fff",
+          pointHoverBackgroundColor: "#fff",
+          pointHoverBorderColor: "#1d7af3"
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          r: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+    // Bubble Chart: Student Distribution
+    const bubbleResponse = await fetch("/bubbleChartStudentPrograms/");
+    const bubbleData = await bubbleResponse.json();
+    const bubbleCtx = document.getElementById("bubbleChartStudentPrograms").getContext("2d");
+    new Chart(bubbleCtx, {
+      type: "bubble",
+      data: {
+        datasets: [{
+          label: "Student Programs",
+          data: bubbleData.labels.map((label, index) => ({
+            x: bubbleData.student_counts[index],
+            y: bubbleData.org_memberships[index],
+            r: Math.sqrt(bubbleData.student_counts[index]) * 2
+          })),
+          backgroundColor: "rgba(29, 122, 243, 0.6)"
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: "Number of Students"
+            }
+          },
+          y: {
+            title: {
+              display: true,
+              text: "Number of Organizations"
+            }
+          }
+        },
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return bubbleData.labels[context.dataIndex];
+              }
+            }
+          }
+        }
+      }
+    });
+
+    // Horizontal Bar Chart: Top Organizations
+    const barResponse = await fetch("/horizontalBarTopOrgs/");
+    const barData = await barResponse.json();
+    const barCtx = document.getElementById("horizontalBarTopOrgs").getContext("2d");
+    new Chart(barCtx, {
+      type: "bar",
+      data: {
+        labels: barData.labels,
+        datasets: [{
+          label: "Member Count",
+          data: barData.member_counts,
+          backgroundColor: "rgba(29, 122, 243, 0.6)",
+          borderColor: "#1d7af3",
+          borderWidth: 1
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+    // Stacked Bar Chart: Member Trends
+    const stackedResponse = await fetch("/stackedBarOrgMemberTrends/");
+    const stackedData = await stackedResponse.json();
+    const stackedCtx = document.getElementById("stackedBarOrgMemberTrends").getContext("2d");
+    new Chart(stackedCtx, {
+      type: "bar",
+      data: {
+        labels: stackedData.labels,
+        datasets: [{
+          label: "New Members",
+          data: stackedData.member_counts,
+          backgroundColor: "rgba(29, 122, 243, 0.6)",
+          borderColor: "#1d7af3",
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            stacked: true
+          },
+          y: {
+            stacked: true,
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+    // Doughnut Chart: Program Distribution
+    const doughnutResponse = await fetch("/doughnutProgramDistribution/");
+    const doughnutData = await doughnutResponse.json();
+    const doughnutCtx = document.getElementById("doughnutProgramDistribution").getContext("2d");
+    new Chart(doughnutCtx, {
+      type: "doughnut",
+      data: {
+        labels: doughnutData.labels,
+        datasets: [{
+          data: doughnutData.program_counts,
+          backgroundColor: [
+            "#1d7af3",
+            "#f3545d",
+            "#fdaf4b",
+            "#59d05d",
+            "#00c0ef",
+            "#2779bd",
+            "#9561e2"
+          ]
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'right'
+          }
+        }
+      }
+    });
+  } catch (error) {
+    console.error("Error loading chart data:", error);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', loadChartData);
+</script>
 {% endblock %}

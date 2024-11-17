@@ -22,7 +22,8 @@ from studentorg.views import (
      OrgMemberList, OrgMemberCreateView, OrgMemberUpdateView, OrgMemberDeleteView,
      StudentList, StudentCreateView, StudentUpdateView, StudentDeleteView,
      CollegeList, CollegeCreateView, CollegeUpdateView, CollegeDeleteView,
-     ProgramList, ProgramCreateView, ProgramUpdateView, ProgramDeleteView
+     ProgramList, ProgramCreateView, ProgramUpdateView, ProgramDeleteView,
+     RadarChartOrgParticipation, BubbleChartStudentPrograms, HorizontalBarTopOrganizations, StackedBarOrgMemberTrends, DoughnutProgramDistribution
 )
 from studentorg import views
 from django.contrib.auth import views as auth_views
@@ -35,6 +36,11 @@ urlpatterns = [
      path('lineChart/', LineCountbyMonth, name='chart'),
      path('multilineChart/', MultilineIncidentTop3Country, name='chart'),
      path('multipleBarbySeverity/', multipleBarbySeverity, name='chart'),
+     path('radarChartOrgParticipation/', RadarChartOrgParticipation, name='radar-chart'),
+     path('bubbleChartStudentPrograms/', BubbleChartStudentPrograms, name='bubble-chart'),
+     path('horizontalBarTopOrgs/', HorizontalBarTopOrganizations, name='horizontal-bar-chart'),
+     path('stackedBarOrgMemberTrends/', StackedBarOrgMemberTrends, name='stacked-bar-chart'),
+     path('doughnutProgramDistribution/', DoughnutProgramDistribution, name='doughnut-chart'),
 
      # Organization
      path('organization_list', OrganizationList.as_view(), name='organization-list'),
