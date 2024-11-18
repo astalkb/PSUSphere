@@ -34,17 +34,6 @@ class HomePageView(ListView):
             qs = qs.filter(Q(name__icontains=query) | Q(description__icontains=query))
         return qs
      
-class ChartView(ListView):
-    model = Organization
-    template_name = 'chart.html'
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-
-    def get_queryset(self, *args, **kwargs):
-        pass
-
 def PieCountbySeverity(request):
     query = '''
     SELECT severity_level, COUNT(*) as count

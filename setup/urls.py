@@ -17,13 +17,14 @@ The `urlpatterns` list routes URLs to views. For more information please see:
 from django.contrib import admin
 from django.urls import path, re_path
 from studentorg.views import (
-     HomePageView, ChartView, PieCountbySeverity, LineCountbyMonth, MultilineIncidentTop3Country,        multipleBarbySeverity, OrganizationList, OrganizationCreateView, OrganizationUpdateView,
-     OrganizationDeleteView,
-     OrgMemberList, OrgMemberCreateView, OrgMemberUpdateView, OrgMemberDeleteView,
-     StudentList, StudentCreateView, StudentUpdateView, StudentDeleteView,
-     CollegeList, CollegeCreateView, CollegeUpdateView, CollegeDeleteView,
-     ProgramList, ProgramCreateView, ProgramUpdateView, ProgramDeleteView,
-     RadarChartOrgParticipation, BubbleChartStudentPrograms, HorizontalBarTopOrganizations, StackedBarOrgMemberTrends, DoughnutProgramDistribution
+    HomePageView, PieCountbySeverity, LineCountbyMonth, MultilineIncidentTop3Country, multipleBarbySeverity,
+    OrganizationList, OrganizationCreateView, OrganizationUpdateView, OrganizationDeleteView,
+    OrgMemberList, OrgMemberCreateView, OrgMemberUpdateView, OrgMemberDeleteView,
+    StudentList, StudentCreateView, StudentUpdateView, StudentDeleteView,
+    CollegeList, CollegeCreateView, CollegeUpdateView, CollegeDeleteView,
+    ProgramList, ProgramCreateView, ProgramUpdateView, ProgramDeleteView,
+    RadarChartOrgParticipation, BubbleChartStudentPrograms, HorizontalBarTopOrganizations,
+    StackedBarOrgMemberTrends, DoughnutProgramDistribution
 )
 from studentorg import views
 from django.contrib.auth import views as auth_views
@@ -31,7 +32,6 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
      path("admin/", admin.site.urls),
      path('', views.HomePageView.as_view(), name='home'),
-     path('dashboard_chart', ChartView.as_view(), name='dashboard-chart'),
      path('chart/', PieCountbySeverity, name='chart'),
      path('lineChart/', LineCountbyMonth, name='chart'),
      path('multilineChart/', MultilineIncidentTop3Country, name='chart'),
