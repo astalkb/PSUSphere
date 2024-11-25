@@ -36,8 +36,8 @@ class Organization(BaseModel):
 
 class Student(BaseModel):
     student_id = models.CharField(max_length=15)
-    lastname = models.CharField(max_length=25)
-    firstname = models.CharField(max_length=25)
+    lastname = models.CharField(max_length=25, verbose_name="Last Name")
+    firstname = models.CharField(max_length=25, verbose_name="First Name")
     middlename = models.CharField(max_length=25, blank=True, null=True)
     program = models.ForeignKey(Program, on_delete=models.CASCADE)
     college = models.ForeignKey(College, on_delete=models.CASCADE, default=1)
@@ -52,4 +52,4 @@ class OrgMember(BaseModel):
     date_joined = models.DateField()
 
     def __str__(self):
-        return f"{self.student.lastname}, {self.student.firstname} - {self.organization.name}"
+        return f"{self.student.firstname} {self.student.lastname} - {self.organization.name}"
