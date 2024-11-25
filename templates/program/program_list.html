@@ -12,9 +12,18 @@
           <br />
           <div class="col-md-12 row">
             <div class="col-md-6">
-              <form class="navbar-left navbar-form nav-search mr-md-3" action="{% url 'program-list' %}">
+              <form
+                class="navbar-left navbar-form nav-search mr-md-3"
+                action="{% url 'program-list' %}"
+              >
                 <div class="input-group">
-                  <input type="text" placeholder="Search ..." class="form-control" name="q" value="{{ request.GET.q }}"/>
+                  <input
+                    type="text"
+                    placeholder="Search ..."
+                    class="form-control"
+                    name="q"
+                    value="{{ request.GET.q }}"
+                  />
                   <div class="input-group-append">
                     <span class="input-group-text">
                       <i class="la la-search search-icon"></i>
@@ -25,7 +34,11 @@
             </div>
             <div class="col-md-6">
               <div class="pull-right">
-                <a href="{% url 'program-add' %}" class="btn btn-success btn-rounded">Add Program</a>
+                <a
+                  href="{% url 'program-add' %}"
+                  class="btn btn-success btn-rounded"
+                  >Add Program</a
+                >
               </div>
             </div>
           </div>
@@ -46,13 +59,19 @@
                   <td>{{ object.college }}</td>
                   <td>
                     <a href="{% url 'program-update' object.id %}">Edit</a>
-                    <a href="{% url 'program-delete' object.id %}" class="text-danger">Delete</a>
+                    <a
+                      href="{% url 'program-delete' object.id %}"
+                      class="text-danger"
+                      >Delete</a
+                    >
                   </td>
                 </tr>
                 {% empty %}
                 <tr>
                   <td colspan="3" style="text-align: center">
-                    <p class="text-sm font-weight-bold mb-0">No Records Found</p>
+                    <p class="text-sm font-weight-bold mb-0">
+                      No Records Found
+                    </p>
                   </td>
                 </tr>
                 {% endfor %}
@@ -65,4 +84,4 @@
     </div>
   </div>
 </div>
-{% endblock %}
+{% include "includes/message.html" %} {% endblock %}
