@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from studentorg.models import Organization, OrgMember, Student, College, Program
@@ -6,15 +5,11 @@ from studentorg.forms import OrganizationForm, OrgMemberForm, StudentForm, Colle
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from typing import Any
 from django.db.models import Q
 from django.contrib import messages
 
 from django.db import connection
 from django.http import JsonResponse
-from django.db.models.functions import ExtractMonth
-from django.db.models import Count
-from datetime import datetime
 
 
 @method_decorator(login_required, name='dispatch')
@@ -167,8 +162,7 @@ class OrganizationList(ListView):
         qs = super().get_queryset(*args, **kwargs)
         if self.request.GET.get("q") != None:
             query = self.request.GET.get('q')
-            qs = qs.filter(Q(name__icontains=query) |
-                           Q(description__icontains=query))
+            qs = qs.filter(Q(name__icontains=query) | Q(description__icontains=query))
         return qs
 
 
@@ -180,8 +174,7 @@ class OrganizationCreateView(CreateView):
 
     def form_valid(self, form):
         organization_name = form.instance.name
-        messages.success(self.request, f'{
-                         organization_name} has been successfully added.')
+        messages.success(self.request, f'{organization_name} has been successfully added.')
         return super().form_valid(form)
 
 
@@ -193,8 +186,7 @@ class OrganizationUpdateView(UpdateView):
 
     def form_valid(self, form):
         organization_name = form.instance.name
-        messages.success(self.request, f'{
-                         organization_name} has been successfully updated.')
+        messages.success(self.request, f'{organization_name} has been successfully updated.')
         return super().form_valid(form)
 
 
@@ -241,8 +233,7 @@ class OrgMemberCreateView(CreateView):
 
     def form_valid(self, form):
         orgmember = form.instance
-        messages.success(self.request, f'{
-            orgmember} has been successfully added.')
+        messages.success(self.request, f'{orgmember} has been successfully added.')
         return super().form_valid(form)
 
 
@@ -254,8 +245,7 @@ class OrgMemberUpdateView(UpdateView):
 
     def form_valid(self, form):
         orgmember = form.instance
-        messages.success(self.request, f'{
-                         orgmember} has been successfully updated.')
+        messages.success(self.request, f'{orgmember} has been successfully updated.')
         return super().form_valid(form)
 
 
@@ -298,7 +288,8 @@ class StudentCreateView(CreateView):
     success_url = reverse_lazy('student-list')
 
     def form_valid(self, form):
-        form
+        student = form.instance
+        messages.success(self.request, f'{student} has been successfully added.')
         return super().form_valid(form)
 
 
@@ -313,7 +304,8 @@ class StudentUpdateView(UpdateView):
     success_url = reverse_lazy('student-list')
 
     def form_valid(self, form):
-        form
+        student = form.instance
+        messages.success(self.request, f'{student} has been successfully updated.')
         return super().form_valid(form)
 
 
@@ -359,8 +351,7 @@ class CollegeCreateView(CreateView):
 
     def form_valid(self, form):
         college_name = form.instance.college_name
-        messages.success(self.request, f'{
-                         college_name} has been successfully added.')
+        messages.success(self.request, f'{college_name} has been successfully added.')
         return super().form_valid(form)
 
 
@@ -376,8 +367,7 @@ class CollegeUpdateView(UpdateView):
 
     def form_valid(self, form):
         college_name = form.instance.college_name
-        messages.success(self.request, f'{
-                         college_name} has been successfully updated.')
+        messages.success(self.request, f'{college_name} has been successfully updated.')
         return super().form_valid(form)
 
 
@@ -415,8 +405,7 @@ class ProgramCreateView(CreateView):
 
     def form_valid(self, form):
         program_name = form.instance.prog_name
-        messages.success(self.request, f'{
-                         program_name} has been successfully added.')
+        messages.success(self.request, f'{program_name} has been successfully added.')
         return super().form_valid(form)
 
 
@@ -428,8 +417,7 @@ class ProgramUpdateView(UpdateView):
 
     def form_valid(self, form):
         prog_name = form.instance.prog_name
-        messages.success(self.request, f'{
-                         prog_name} has been successfully updated.')
+        messages.success(self.request, f'{prog_name} has been successfully updated.')
         return super().form_valid(form)
 
 
